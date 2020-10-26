@@ -2,8 +2,6 @@ language: java
 
 jdk: openjdk13
 
-os: windows
-
 services: postgresql
 
 after_success: bash <(curl -s https://codecov.io/bash)
