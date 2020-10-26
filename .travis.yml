@@ -4,16 +4,11 @@ jdk: openjdk13
 
 os: windows
 
-services:
-  - postgresql
+services: postgresql
 
-sudo: false
+after_success: bash <(curl -s https://codecov.io/bash)
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
-before_install:
-  - psql -c 'create database tracker;' -U postgres
+before_install: psql -c 'create database tracker;' -U postgres
 
 notifications:
   email:
@@ -23,5 +18,4 @@ notifications:
     on_failure: always # default: always
 
 env:
-  global:
-     - CODECOV_TOKEN="1695516b-ae96-4dfb-9f98-ffc18741de57"
+  global: CODECOV_TOKEN="1695516b-ae96-4dfb-9f98-ffc18741de57"
