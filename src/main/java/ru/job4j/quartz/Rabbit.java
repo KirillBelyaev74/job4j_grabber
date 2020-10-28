@@ -1,4 +1,4 @@
-package ru.sql;
+package ru.job4j.quartz;
 import org.quartz.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -11,9 +11,9 @@ public class Rabbit implements Job {
     public void creatTable() {
         try (Statement statement = this.connection.createStatement()) {
             statement.executeUpdate(
-                    "create table if not exists rabbit (" +
-                    "id serial primary key not null," +
-                    "date varchar(50) not null)");
+                    "create table if not exists rabbit ("
+                    + "id serial primary key not null,"
+                    + "date varchar(50) not null)");
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package ru.sql;
+package ru.job4j.quartz;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
