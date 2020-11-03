@@ -10,6 +10,8 @@ import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
 
+    private Properties properties;
+
     public void start() {
         try {
             List<Long> store = new ArrayList<>();
@@ -21,7 +23,7 @@ public class AlertRabbit {
                     .usingJobData(data)
                     .build();
             SimpleScheduleBuilder times = simpleSchedule()
-                    .withIntervalInSeconds(5)
+                    .withIntervalInSeconds(Integer.parseInt(this.properties.getProperty("rabbit.interval")))
                     .repeatForever();
             Trigger trigger = newTrigger()
                     .startNow()
@@ -38,14 +40,15 @@ public class AlertRabbit {
 
     public Connection getConnection() {
         Connection connection = null;
-        try (InputStream inputStream = AlertRabbit.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            Class.forName(properties.getProperty("driver"));
+        try (InputStream inputStream =
+                     AlertRabbit.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
+            this.properties = new Properties();
+            this.properties.load(inputStream);
+            Class.forName(this.properties.getProperty("driver"));
             connection = DriverManager.getConnection(
-                    properties.getProperty("url"),
-                    properties.getProperty("username"),
-                    properties.getProperty("password"));
+                    this.properties.getProperty("url"),
+                    this.properties.getProperty("username"),
+                    this.properties.getProperty("password"));
         } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

@@ -20,17 +20,16 @@ public class Rabbit implements Job {
     }
 
     @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    public void execute(JobExecutionContext jobExecutionContext) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
-        try {
-            this.connection = (Connection) jobExecutionContext.getJobDetail().getJobDataMap().get("connection");
-            this.creatTable();
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into rabbit (date) values (?)", Statement.RETURN_GENERATED_KEYS);
+        this.connection = (Connection) jobExecutionContext.getJobDetail().getJobDataMap().get("connection");
+        this.creatTable();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "insert into rabbit (date) values (?)", Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, simpleDateFormat.format(new Date()));
             preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
