@@ -6,6 +6,7 @@ services: postgresql
 
 after_success: bash <(curl -s https://codecov.io/bash)
 
+
 before_install: psql -c 'create database tracker;' -U postgres
 
 notifications:
