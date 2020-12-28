@@ -17,10 +17,15 @@ public class SqlRuParse implements PrintElements {
     }
 
     public static void main(String[] args) throws Exception {
-        Document document = Jsoup.connect("https://www.sql.ru/forum/job-offers").get();
-        Elements elements = document.select(".postslisttopic");
-        Elements elementsDate = document.select(".altCol");
-//        new SqlRuParse().print(elementsDate);
-        new StringToDate().print(elementsDate);
+        PrintElements sqlRuParse = new SqlRuParse();
+        PrintElements stringToDate = new StringToDate();
+        for (int index = 1; index <= 5; index++) {
+            String url = "https://www.sql.ru/forum/job-offers/" + index;
+            Document document = Jsoup.connect(url).get();
+            Elements elements = document.select(".postslisttopic");
+            Elements elementsDate = document.select(".altCol");
+            sqlRuParse.print(elements);
+            stringToDate.print(elementsDate);
+        }
     }
 }
