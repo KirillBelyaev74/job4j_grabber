@@ -4,28 +4,41 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 
-import java.text.DateFormatSymbols;
+import java.io.IOException;
+import java.text.ParseException;
 
-public class SqlRuParse implements PrintElements {
+public class SqlRuParse {
 
-    @Override
-    public void print(Elements elements) {
+    private StringToDate stringToDate;
+
+    public SqlRuParse(StringToDate stringToDate) {
+        this.stringToDate = stringToDate;
+    }
+
+    public void print(String text) {
+        System.out.println(text);
+    }
+
+    public void createElement(Document document) throws ParseException {
+        Elements elements = document.select(".postslisttopic");
         for (Element element : elements) {
-            System.out.println(element.child(0).attr("href"));
-            System.out.println(element.child(0).text());
+            this.print(element.child(0).attr("href"));
+            this.print(element.child(0).text());
+        }
+        Elements elementsDate = document.select(".altCol");
+        stringToDate.createDate(elementsDate).forEach(d -> this.print(d.toString()));
+    }
+
+    public void createDocument() throws IOException, ParseException {
+        for (int index = 1; index <= 5; index++) {
+            String url = "https://www.sql.ru/forum/job-offers/" + index;
+            Document document = Jsoup.connect(url).get();
+            this.createElement(document);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        PrintElements sqlRuParse = new SqlRuParse();
-        PrintElements stringToDate = new StringToDate();
-        for (int index = 1; index <= 5; index++) {
-            String url = "https://www.sql.ru/forum/job-offers/" + index;
-            Document document = Jsoup.connect(url).get();
-            Elements elements = document.select(".postslisttopic");
-            Elements elementsDate = document.select(".altCol");
-            sqlRuParse.print(elements);
-            stringToDate.print(elementsDate);
-        }
+        SqlRuParse sqlRuParse = new SqlRuParse(new StringToDate());
+        sqlRuParse.createDocument();
     }
 }

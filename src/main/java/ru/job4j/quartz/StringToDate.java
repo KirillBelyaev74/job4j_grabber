@@ -8,17 +8,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
-public class StringToDate implements PrintElements {
+public class StringToDate {
 
-    @Override
-    public void print(Elements elements) throws ParseException {
+    public List<Date> createDate (Elements elements) throws ParseException {
+        List<Date> list = new LinkedList<>();
         String dateString;
         Date date = null;
         for (Element element : elements) {
             dateString = element.childNodes().get(0).toString();
             if (!" ".equalsIgnoreCase(dateString)) {
-                System.out.println(dateString);
                 if (dateString.contains("сегодня")) {
                     date = new Date();
                 } else if (dateString.contains("вчера")) {
@@ -33,9 +34,10 @@ public class StringToDate implements PrintElements {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yy, hh:mm", myDateFormatSymbols);
                     date = simpleDateFormat.parse(dateString);
                 }
-                System.out.println(date);
+                list.add(date);
             }
         }
+        return list;
     }
 
     private static DateFormatSymbols myDateFormatSymbols = new DateFormatSymbols(){
