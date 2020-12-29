@@ -1,4 +1,4 @@
-package ru.job4j.quartz;
+package ru.job4j.grabber;
 
 import java.util.Date;
 import java.util.Objects;
@@ -9,6 +9,11 @@ public class Post {
     private String url;
     private String text;
     private Date date;
+
+    public Post(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
 
     public Post(String name, String url, String text, Date date) {
         this.name = name;
@@ -31,6 +36,22 @@ public class Post {
 
     public Date getDate() {
         return date;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

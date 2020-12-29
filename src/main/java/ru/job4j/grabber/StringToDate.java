@@ -1,4 +1,4 @@
-package ru.job4j.quartz;
+package ru.job4j.grabber;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ public class StringToDate {
                 calendar.add(Calendar.DATE, +1);
                 date = calendar.getTime();
             } else {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yy, hh:mm", myDateFormatSymbols);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yy, HH:mm", myDateFormatSymbols);
                 date = simpleDateFormat.parse(dateString);
             }
         }
