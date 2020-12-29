@@ -1,6 +1,6 @@
-package ru.job4j.grabber;
+package ru.job4j.quartz;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class Post {
@@ -8,13 +8,13 @@ public class Post {
     private String name;
     private String url;
     private String text;
-    private Calendar calendar;
+    private Date date;
 
-    public Post(String name, String url, String text, Calendar calendar) {
+    public Post(String name, String url, String text, Date date) {
         this.name = name;
         this.url = url;
         this.text = text;
-        this.calendar = calendar;
+        this.date = date;
     }
 
     public String getName() {
@@ -29,8 +29,8 @@ public class Post {
         return text;
     }
 
-    public Calendar getCalendar() {
-        return calendar;
+    public Date getDate() {
+        return date;
     }
 
     @Override
@@ -41,21 +41,21 @@ public class Post {
         return Objects.equals(name, post.name) &&
                 Objects.equals(url, post.url) &&
                 Objects.equals(text, post.text) &&
-                Objects.equals(calendar, post.calendar);
+                Objects.equals(date, post.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, url, text, calendar);
+        return Objects.hash(name, url, text, date);
     }
 
     @Override
     public String toString() {
-        return "Post{" +
-                "name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", text='" + text + '\'' +
-                ", calendar=" + calendar +
+        return "Post {" + System.lineSeparator() +
+                "name = '" + name + '\'' + ", " + System.lineSeparator() +
+                "url = '" + url + '\'' + ", " + System.lineSeparator() +
+                "text = '" + text + '\'' + ", " + System.lineSeparator() +
+                "date = " + date + System.lineSeparator() +
                 '}';
     }
 }

@@ -3,42 +3,42 @@ package ru.job4j.quartz;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.Parser;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 
-public class SqlRuParse {
+public class SqlRuParse<E> implements Parser {
 
-    private StringToDate stringToDate;
-
-    public SqlRuParse(StringToDate stringToDate) {
-        this.stringToDate = stringToDate;
-    }
-
+    @Override
     public void print(String text) {
         System.out.println(text);
     }
 
-    public void createElement(Document document) throws ParseException {
+    @Override
+    public Date createElement(Document document, StringToDate stringToDate) throws ParseException {
         Elements elements = document.select(".postslisttopic");
         for (Element element : elements) {
             this.print(element.child(0).attr("href"));
             this.print(element.child(0).text());
         }
         Elements elementsDate = document.select(".altCol");
-        stringToDate.createDate(elementsDate).forEach(d -> this.print(d.toString()));
+        return stringToDate.createDate(elementsDate.get(1).childNodes().get(0).toString());
     }
 
-    public void createDocument() throws IOException, ParseException {
-        for (int index = 1; index <= 5; index++) {
-            String url = "https://www.sql.ru/forum/job-offers/" + index;
-            Document document = Jsoup.connect(url).get();
-            this.createElement(document);
-        }
+    @Override
+    public Document createDocument(String url) throws IOException {
+        return Jsoup.connect(url).get();
     }
 
     public static void main(String[] args) throws Exception {
-        SqlRuParse sqlRuParse = new SqlRuParse(new StringToDate());
-        sqlRuParse.createDocument();
+        SqlRuParse<Elements> sqlRuParse = new SqlRuParse<>();
+        for (int index = 1; index <= 5; index++) {
+            Date date = sqlRuParse.createElement(
+                    sqlRuParse.createDocument("https://www.sql.ru/forum/job-offers/" + index),
+                    new StringToDate());
+            sqlRuParse.print(date.toString() + System.lineSeparator() );
+        }
     }
 }
