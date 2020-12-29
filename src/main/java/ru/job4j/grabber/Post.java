@@ -56,13 +56,15 @@ public class Post {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Post post = (Post) o;
-        return Objects.equals(name, post.name) &&
-                Objects.equals(url, post.url) &&
-                Objects.equals(text, post.text) &&
-                Objects.equals(date, post.date);
+        return Objects.equals(name, post.name) && Objects.equals(url, post.url)
+                && Objects.equals(text, post.text) && Objects.equals(date, post.date);
     }
 
     @Override
@@ -72,11 +74,11 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post {" + System.lineSeparator() +
-                "name = '" + name + '\'' + ", " + System.lineSeparator() +
-                "url = '" + url + '\'' + ", " + System.lineSeparator() +
-                "text = '" + text + '\'' + ", " + System.lineSeparator() +
-                "date = " + date + System.lineSeparator() +
-                '}';
+        return "Post {" + System.lineSeparator()
+                + "name = '" + name + '\'' + ", " + System.lineSeparator()
+                + "url = '" + url + '\'' + ", " + System.lineSeparator()
+                + "text = '" + text + '\'' + ", " + System.lineSeparator()
+                + "date = " + date + System.lineSeparator()
+                + '}';
     }
 }

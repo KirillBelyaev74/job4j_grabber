@@ -3,12 +3,13 @@ package ru.job4j.quartz;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import ru.job4j.grabber.Parser;
+import ru.job4j.grabber.Post;
+import ru.job4j.grabber.StringToDate;
 
 import java.io.IOException;
 import java.text.ParseException;
 
-public class ParserPosts<E> implements Parser{
+public class ParserPosts<E> implements Parser {
 
     @Override
     public void print(String text) {
@@ -32,12 +33,5 @@ public class ParserPosts<E> implements Parser{
     @Override
     public Document createDocument(String url) throws IOException {
         return Jsoup.connect(url).get();
-    }
-
-    public static void main(String[] args) throws IOException, ParseException {
-        ParserPosts<Post> parserPosts = new ParserPosts<>();
-        Post post = parserPosts.createElement(
-                parserPosts.createDocument("https://www.sql.ru/forum/1325330/lidy-be-fe-senior-cistemnye-analitiki-qa-i-devops-moskva-do-200t"), new StringToDate());
-        parserPosts.print(post.toString());
     }
 }

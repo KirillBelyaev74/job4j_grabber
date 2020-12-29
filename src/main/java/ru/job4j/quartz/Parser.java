@@ -1,13 +1,12 @@
-package ru.job4j.grabber;
-
-import ru.job4j.quartz.StringToDate;
+package ru.job4j.quartz;
 
 import org.jsoup.nodes.Document;
+import ru.job4j.grabber.StringToDate;
 
 import java.io.IOException;
 import java.text.ParseException;
 
-public interface Parser <E> {
+public interface Parser<E> {
 
     void print(String text);
     E createElement(Document document, StringToDate stringToDate) throws ParseException;
