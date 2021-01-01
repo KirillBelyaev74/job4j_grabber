@@ -5,7 +5,7 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-public class PsqlStore implements Store {
+public class PsqlStore implements Store, AutoCloseable{
 
     private Connection connection;
 
@@ -79,5 +79,12 @@ public class PsqlStore implements Store {
             throwables.printStackTrace();
         }
         return post;
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (this.connection != null) {
+            this.connection.close();
+        }
     }
 }
