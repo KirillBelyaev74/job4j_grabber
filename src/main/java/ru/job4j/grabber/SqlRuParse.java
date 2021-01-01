@@ -53,18 +53,4 @@ public class SqlRuParse implements Parse {
         }
         return post;
     }
-
-    public static void main(String[] args) {
-        Parse parse = new SqlRuParse(new StringToDate());
-        List<Post> postList = null;
-        try {
-            postList = parse.list("https://www.sql.ru/forum/job-offers/3");
-            for (int index = 0; index != postList.size(); index++) {
-                postList.set(index, parse.detail(postList.get(index)));
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        Objects.requireNonNull(postList).forEach(System.out::println);
-    }
 }

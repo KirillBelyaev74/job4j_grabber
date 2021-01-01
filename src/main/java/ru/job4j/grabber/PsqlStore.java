@@ -80,23 +80,4 @@ public class PsqlStore implements Store {
         }
         return post;
     }
-
-    public static void main(String[] args) {
-        try {
-            InputStream inputStream = PsqlStore.class.getClassLoader().getResourceAsStream("rabbit.properties");
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            PsqlStore psqlStore = new PsqlStore(properties);
-            Post post = new Post(
-                    "(4)Senior Java Backend Developer, удаленка или релокация в Ростов-на-Дону",
-                    "(4)https://www.sql.ru/forum/1330136/senior-java-backend-developer-udalenka-ili-relokaciya-v-rostov-na-donu",
-                    "(4)Ищем Senior Java Backend Developer на удаленную работу или в Ростове-на-Дону на ваш выбор",
-                    new java.util.Date());
-            psqlStore.save(post);
-            psqlStore.getAll().forEach(System.out::println);
-            System.out.println(System.lineSeparator() + psqlStore.findById("10"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
