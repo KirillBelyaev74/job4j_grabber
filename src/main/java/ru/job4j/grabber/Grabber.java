@@ -3,9 +3,7 @@ package ru.job4j.grabber;
 import org.quartz.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
@@ -22,9 +20,8 @@ public class Grabber implements Grab {
         return scheduler;
     }
 
-    public void properties() throws IOException {
-        try {
-            InputStream inputStream = Grabber.class.getClassLoader().getResourceAsStream("rabbit.properties");
+    public void properties() {
+        try (InputStream inputStream = Grabber.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,7 +53,7 @@ public class Grabber implements Grab {
     public static class GrabJob implements Job {
 
         @Override
-        public void execute(JobExecutionContext context) throws JobExecutionException {
+        public void execute(JobExecutionContext context) {
             JobDataMap map = context.getJobDetail().getJobDataMap();
             Store store = (Store) map.get("store");
             Parse parse = (Parse) map.get("parse");

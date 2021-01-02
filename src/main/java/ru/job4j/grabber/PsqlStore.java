@@ -26,9 +26,8 @@ public class PsqlStore implements Store, AutoCloseable{
         if (post == null) {
             throw new NullPointerException();
         }
-        try {
-            PreparedStatement preparedStatement =  this.connection.prepareStatement(
-                    "insert into post(name, text, link, created) values (?, ?, ?, ?);");
+        try (PreparedStatement preparedStatement =  this.connection.prepareStatement(
+                "insert into post(name, text, link, created) values (?, ?, ?, ?);")) {
             preparedStatement.setString(1, post.getName());
             preparedStatement.setString(2, post.getText());
             preparedStatement.setString(3, post.getUrl());
@@ -42,8 +41,7 @@ public class PsqlStore implements Store, AutoCloseable{
     @Override
     public List<Post> getAll() {
         List<Post> postList = new LinkedList<>();
-        try {
-            Statement statement = this.connection.createStatement();
+        try (Statement statement = this.connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("select * from post;");
             while (resultSet.next()) {
                 postList.add(new Post(
@@ -64,8 +62,7 @@ public class PsqlStore implements Store, AutoCloseable{
             throw new NullPointerException();
         }
         Post post = null;
-        try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement("select * from post where id = ?;");
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement("select * from post where id = ?;")) {
             preparedStatement.setInt(1, Integer.parseInt(id));
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
