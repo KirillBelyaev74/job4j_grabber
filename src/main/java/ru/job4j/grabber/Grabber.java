@@ -15,7 +15,7 @@ import static org.quartz.impl.StdSchedulerFactory.*;
 
 public class Grabber implements Grab {
 
-    private final static Properties properties = new Properties();
+    private final static Properties PROPERTIES = new Properties();
 
     public Scheduler scheduler() throws SchedulerException {
         Scheduler scheduler = getDefaultScheduler();
@@ -25,7 +25,7 @@ public class Grabber implements Grab {
 
     public void properties() {
         try (InputStream inputStream = Grabber.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
-            properties.load(inputStream);
+            PROPERTIES.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class Grabber implements Grab {
                     .usingJobData(jobDataMap)
                     .build();
             SimpleScheduleBuilder simpleScheduleBuilder = simpleSchedule()
-                    .withIntervalInSeconds(Integer.parseInt(properties.getProperty("rabbit.interval")))
+                    .withIntervalInSeconds(Integer.parseInt(PROPERTIES.getProperty("rabbit.interval")))
                     .repeatForever();
             Trigger trigger = newTrigger()
                     .startNow()
@@ -56,7 +56,7 @@ public class Grabber implements Grab {
 
     public void web(Store store) {
         new Thread(() -> {
-            try (ServerSocket server = new ServerSocket(Integer.parseInt(properties.getProperty("port")))) {
+            try (ServerSocket server = new ServerSocket(Integer.parseInt(PROPERTIES.getProperty("port")))) {
                 while (!server.isClosed()) {
                     Socket socket = server.accept();
                     try (OutputStream out = socket.getOutputStream()) {
@@ -97,7 +97,7 @@ public class Grabber implements Grab {
         Grabber grab = new Grabber();
         grab.properties();
         Scheduler scheduler = grab.scheduler();
-        Store psqlStore = new PsqlStore(properties);
+        Store psqlStore = new PsqlStore(PROPERTIES);
         grab.init(new SqlRuParse(new StringToDate()), psqlStore, scheduler);
         grab.web(psqlStore);
     }

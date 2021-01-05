@@ -1,11 +1,10 @@
 package ru.job4j.grabber;
 
-import java.io.*;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-public class PsqlStore implements Store, AutoCloseable{
+public class PsqlStore implements Store, AutoCloseable {
 
     private Connection connection;
 
