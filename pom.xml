@@ -7,14 +7,13 @@
     <artifactId>job4j_grabber</artifactId>
     <packaging>jar</packaging>
     <version>3.1</version>
-    <modules>
 
-    </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <profiles>
         <profile>
             <id>test</id>
@@ -47,6 +46,7 @@
             </properties>
         </profile>
     </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -92,6 +92,7 @@
             <version>1.2.17</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
