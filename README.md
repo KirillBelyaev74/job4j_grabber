@@ -4,3 +4,5 @@
 ## Проект курса [job4j](http://job4j.ru)
 
 ### Парсер вакансий сайта [sql.ru](https://www.sql.ru/forum/job-offers/1)
+
+![screenshot of sample](screenshot/1.png)
